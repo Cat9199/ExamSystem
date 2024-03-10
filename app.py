@@ -57,7 +57,6 @@ class Question(db.Model):
       examCode = db.Column(db.String(120), db.ForeignKey('exame.examCode'), nullable=False)
       answerCode = db.Column(db.String(120), nullable=False)
       questionType = db.Column(db.String(120), nullable=False)
-      questionImg = db.Column(db.String(120))
       questionMark = db.Column(db.Integer)
       imgWithQuestions = db.Column(db.String(120))
       def serialize(self):
@@ -67,10 +66,10 @@ class Question(db.Model):
                   'examCode': self.examCode,
                   'answerCode': self.answerCode,
                   'questionType': self.questionType,
-                  'questionImg': self.questionImg,
                   'questionMark': self.questionMark ,
                   'imgWithQuestions': self.imgWithQuestions               
             }
+            
 class MCQAnswer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     answer = db.Column(db.String(120), nullable=False)
@@ -85,6 +84,7 @@ class MCQAnswer(db.Model):
             'answerCode': self.answerCode,
             'imgWithAnswer': self.imgWithAnswer
         }
+        
 class TrueFalseAnswer(db.Model):
       id = db.Column(db.Integer, primary_key=True)
       answer = db.Column(db.Boolean, nullable=False)
