@@ -44,8 +44,41 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "examCode": "<unique_code>"
+                                    "examCode": "ABC123"
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/get_all_user_marks": {
+            "get": {
+                "summary": "Get All User Marks",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "example": [{
+                                        "id": 1,
+                                        "email": "example@email.com",
+                                        "examCode": "ABC123",
+                                        "mark": 80,
+                                        "platform": "Online",
+                                        "userPhone": "1234567890",
+                                        "userParentPhone": "0987654321"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "email": "another@example.com",
+                                        "examCode": "XYZ456",
+                                        "mark": 75,
+                                        "platform": "Offline",
+                                        "userPhone": "9876543210",
+                                        "userParentPhone": "0123456789"
+                                    }
+                                ]
                             }
                         }
                     }
@@ -70,9 +103,15 @@
                                     },
                                     "questionType": {
                                         "type": "string"
+                                    },
+                                    "questionMark": {
+                                        "type": "integer"
+                                    },
+                                    "imgWithQuestions": {
+                                        "type": "string"
                                     }
                                 },
-                                "required": ["question", "examCode", "questionType"]
+                                "required": ["question", "examCode", "questionType", "questionMark", "imgWithQuestions"]
                             }
                         }
                     }
@@ -83,7 +122,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "answerCode": "<unique_code>"
+                                    "answerCode": "XYZ456"
                                 }
                             }
                         }
@@ -109,9 +148,12 @@
                                     },
                                     "answerCode": {
                                         "type": "string"
+                                    },
+                                    "imgWithAnswer": {
+                                        "type": "string"
                                     }
                                 },
-                                "required": ["answer", "is_correct", "answerCode"]
+                                "required": ["answer", "is_correct", "answerCode", "imgWithAnswer"]
                             }
                         }
                     }
@@ -122,7 +164,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "answerCode": "<unique_code>"
+                                    "answerCode": "XYZ456"
                                 }
                             }
                         }
@@ -158,7 +200,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "answerCode": "<unique_code>"
+                                    "answerCode": "XYZ456"
                                 }
                             }
                         }
@@ -175,45 +217,22 @@
                         "content": {
                             "application/json": {
                                 "example": [{
-                                    "id": 1,
-                                    "name": "Example Exam",
-                                    "examCode": "ABC123",
-                                    "platform": "Online",
-                                    "examHours": 2,
-                                    "examMinutes": 30,
-                                    "allowExamTimeForStudent": 15
-                                }]
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/get_all_user_marks": {
-            "get": {
-                "summary": "Get All User Marks",
-                "responses": {
-                    "200": {
-                        "description": "Successful response",
-                        "content": {
-                            "application/json": {
-                                "example": [{
                                         "id": 1,
-                                        "email": "example@email.com",
+                                        "name": "Example Exam 1",
                                         "examCode": "ABC123",
-                                        "mark": 80,
                                         "platform": "Online",
-                                        "userPhone": "1234567890",
-                                        "userParentPhone": "0987654321"
+                                        "examHours": 2,
+                                        "examMinutes": 30,
+                                        "allowExamTimeForStudent": 15
                                     },
                                     {
                                         "id": 2,
-                                        "email": "another@example.com",
+                                        "name": "Example Exam 2",
                                         "examCode": "XYZ456",
-                                        "mark": 75,
                                         "platform": "Offline",
-                                        "userPhone": "9876543210",
-                                        "userParentPhone": "0123456789"
+                                        "examHours": 1,
+                                        "examMinutes": 45,
+                                        "allowExamTimeForStudent": 20
                                     }
                                 ]
                             }
@@ -285,17 +304,21 @@
                                         "examCode": "ABC123",
                                         "answerCode": "XYZ456",
                                         "questionType": "mcq",
+                                        "questionMark": 10,
+                                        "imgWithQuestions": "img_url1",
                                         "answers": [{
                                                 "id": 1,
                                                 "answer": "Option A",
                                                 "is_correct": true,
-                                                "answerCode": "XYZ456"
+                                                "answerCode": "XYZ456",
+                                                "imgWithAnswer": "img_url1"
                                             },
                                             {
                                                 "id": 2,
                                                 "answer": "Option B",
                                                 "is_correct": false,
-                                                "answerCode": "XYZ456"
+                                                "answerCode": "PQR789",
+                                                "imgWithAnswer": "img_url2"
                                             }
                                         ]
                                     },
@@ -304,7 +327,14 @@
                                         "question": "Example Question 2",
                                         "examCode": "ABC123",
                                         "answerCode": "PQR789",
-                                        "questionType": "true_false"
+                                        "questionType": "true_false",
+                                        "questionMark": 5,
+                                        "imgWithQuestions": "img_url2",
+                                        "answer": {
+                                            "id": 3,
+                                            "answer": "True",
+                                            "answerCode": "PQR789"
+                                        }
                                     }
                                 ]
                             }
@@ -378,8 +408,8 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "mark": "<user_mark>",
-                                    "examMark": "<exam_mark>",
+                                    "mark": 80,
+                                    "examMark": 30,
                                     "examInfo": {
                                         "id": 1,
                                         "name": "Example Exam",

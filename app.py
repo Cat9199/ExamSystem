@@ -25,6 +25,7 @@ swaggerui_blueprint = get_swaggerui_blueprint(
       }
       )
 CORS(app, resources={r"/*": {"origins": "*"}})
+
 # swagger
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 def makeUniqueCode():
