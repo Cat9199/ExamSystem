@@ -147,6 +147,11 @@ class Imega(db.Model):
 # ================exam routes================
 # add exam
 
+# home route 
+@app.route('/', methods=['GET'])
+def home():
+      return jsonify({'message': 'Welcome to the exam app'}), 200
+
 @app.route('/api/v1/add_exame', methods=['POST'])
 def add_exam():
       data = request.json
