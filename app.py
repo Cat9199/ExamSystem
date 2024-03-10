@@ -170,7 +170,6 @@ def add_question():
                               examCode=data['examCode'], 
                               answerCode=answerCode, 
                               questionType=data['questionType'],
-                              questionImg=data['questionImg'],
                               questionMark=data['questionMark'],
                               imgWithQuestions=data['imgWithQuestions']                              
                               )
