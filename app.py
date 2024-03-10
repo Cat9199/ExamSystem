@@ -38,6 +38,7 @@ class Exame(db.Model):
       examHours = db.Column(db.Integer)
       examMinutes = db.Column(db.Integer)
       allowExamTimeForStudent = db.Column(db.Integer)
+      
       def serialize(self):
             return {
                   'id': self.id,
@@ -47,6 +48,7 @@ class Exame(db.Model):
                   'examHours': self.examHours,
                   'examMinutes': self.examMinutes,
                   'allowExamTimeForStudent': self.allowExamTimeForStudent
+                  
             }
 class Question(db.Model):
       id = db.Column(db.Integer, primary_key=True)
@@ -57,6 +59,7 @@ class Question(db.Model):
       questionType = db.Column(db.String(120), nullable=False)
       questionImg = db.Column(db.String(120))
       questionMark = db.Column(db.Integer)
+      imgWithQuestions = db.Column(db.String(120))
       def serialize(self):
             return {
                   'id': self.id,
@@ -65,19 +68,22 @@ class Question(db.Model):
                   'answerCode': self.answerCode,
                   'questionType': self.questionType,
                   'questionImg': self.questionImg,
-                  'questionMark': self.questionMark                
+                  'questionMark': self.questionMark ,
+                  'imgWithQuestions': self.imgWithQuestions               
             }
 class MCQAnswer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     answer = db.Column(db.String(120), nullable=False)
     is_correct = db.Column(db.Boolean, default=False)
     answerCode = db.Column(db.String(120))
+    imgWithAnswer = db.Column(db.String(120))
     def serialize(self):
         return {
             'id': self.id,
             'answer': self.answer,
             'is_correct': self.is_correct,
-            'answerCode': self.answerCode
+            'answerCode': self.answerCode,
+            'imgWithAnswer': self.imgWithAnswer
         }
 class TrueFalseAnswer(db.Model):
       id = db.Column(db.Integer, primary_key=True)
@@ -165,7 +171,8 @@ def add_question():
                               answerCode=answerCode, 
                               questionType=data['questionType'],
                               questionImg=data['questionImg'],
-                              questionMark=data['questionMark']
+                              questionMark=data['questionMark'],
+                              imgWithQuestions=data['imgWithQuestions']                              
                               )
       db.session.add(new_question)
       db.session.commit()
@@ -176,7 +183,8 @@ def add_mcq_answer():
       data = request.json
       new_answer = MCQAnswer(answer=data['answer'], 
                               is_correct=data['is_correct'], 
-                              answerCode=data['answerCode']
+                              answerCode=data['answerCode'],
+                              imgWithAnswer=data['imgWithAnswer']
                               )
       db.session.add(new_answer)
       db.session.commit()
@@ -222,7 +230,6 @@ def get_exam_questions(code):
             
             questions_data.append(question_data)
       return jsonify(questions_data), 200
-# send exam and get the mark
 
 
 @app.route('/api/v1/send_exam', methods=['POST'])
