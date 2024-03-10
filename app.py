@@ -3,6 +3,7 @@ from flask import Flask,jsonify,Response,request
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import requests
 import random
 import json
@@ -23,12 +24,15 @@ swaggerui_blueprint = get_swaggerui_blueprint(
             'app_name': "Test App"
       }
       )
+CORS(app, resources={r"/*": {"origins": "*"}})
 # swagger
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 def makeUniqueCode():
       code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=20))
       return code
 migrate = Migrate(app, db)
+CORS(app)
+
 # models
 class Exame(db.Model):
       id = db.Column(db.Integer, primary_key=True)
